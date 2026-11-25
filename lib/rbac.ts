@@ -22,11 +22,12 @@ type Rule = { prefix: string; any: PermissionCode[] };
 export const ROUTE_RULES: Rule[] = [
   { prefix: "/dashboard", any: ["dashboard:view_all", "dashboard:view_division"] },
   { prefix: "/api/dashboard", any: ["dashboard:view_all", "dashboard:view_division"] },
+  { prefix: "/pengawasan", any: ["audit:read", "directives:read", "directives:create", "directives:resolve"] },
+  { prefix: "/api/audit-logs", any: ["audit:read"] },
+  { prefix: "/api/directives", any: ["directives:read", "directives:create", "directives:resolve"] },
   { prefix: "/documents/new", any: ["documents:create"] },
   { prefix: "/documents", any: ["documents:read_all", "documents:read_division", "documents:create"] },
   { prefix: "/api/documents", any: ["documents:read_all", "documents:read_division", "documents:create"] },
-  { prefix: "/api/audit-logs", any: ["audit:read"] },
-  { prefix: "/api/directives", any: ["directives:read", "directives:create", "directives:resolve"] },
   { prefix: "/api/workload", any: ["workload:read_all", "workload:read_division"] },
   { prefix: "/api/tasks", any: ["tasks:read_all", "tasks:read_division", "tasks:read_own", "tasks:create"] },
   { prefix: "/admin/users", any: ["users:manage_roles"] },
@@ -45,6 +46,7 @@ export function hasAny(perms: ReadonlySet<string> | readonly string[], needed: r
 export type NavItem = { href: string; label: string; any: PermissionCode[] };
 export const NAV_ITEMS: NavItem[] = [
   { href: "/dashboard", label: "Dashboard", any: ["dashboard:view_all", "dashboard:view_division"] },
+  { href: "/pengawasan", label: "Pengawasan", any: ["audit:read", "directives:read", "directives:create", "directives:resolve"] },
   { href: "/documents", label: "Persuratan", any: ["documents:read_all", "documents:read_division", "documents:create"] },
   { href: "/admin/users", label: "Pengguna & Role", any: ["users:manage_roles"] },
   { href: "/admin/roles", label: "Matriks Hak Akses", any: ["roles:manage_permissions"] },
