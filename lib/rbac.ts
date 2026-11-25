@@ -6,8 +6,11 @@ export type PermissionCode =
   | "divisions:read" | "divisions:manage"
   | "dashboard:view_all" | "dashboard:view_division"
   | "tasks:read_all" | "tasks:read_division" | "tasks:read_own"
+  | "tasks:create" | "tasks:update_all" | "tasks:update_division" | "tasks:update_own"
   | "documents:create" | "documents:read_all" | "documents:read_division"
-  | "documents:review" | "documents:approve";
+  | "documents:review" | "documents:approve"
+  | "audit:read" | "directives:create" | "directives:read" | "directives:resolve"
+  | "workload:read_all" | "workload:read_division";
 
 type Rule = { prefix: string; any: PermissionCode[] };
 
@@ -22,6 +25,10 @@ export const ROUTE_RULES: Rule[] = [
   { prefix: "/documents/new", any: ["documents:create"] },
   { prefix: "/documents", any: ["documents:read_all", "documents:read_division", "documents:create"] },
   { prefix: "/api/documents", any: ["documents:read_all", "documents:read_division", "documents:create"] },
+  { prefix: "/api/audit-logs", any: ["audit:read"] },
+  { prefix: "/api/directives", any: ["directives:read", "directives:create", "directives:resolve"] },
+  { prefix: "/api/workload", any: ["workload:read_all", "workload:read_division"] },
+  { prefix: "/api/tasks", any: ["tasks:read_all", "tasks:read_division", "tasks:read_own", "tasks:create"] },
   { prefix: "/admin/users", any: ["users:manage_roles"] },
   { prefix: "/admin/roles", any: ["roles:manage_permissions"] },
 ];
