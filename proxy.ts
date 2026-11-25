@@ -14,6 +14,8 @@ const PUBLIC_PATHS = ["/login", "/forbidden"];
  */
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  if (pathname === "/api/cron/reminders") return NextResponse.next({ request });
+
   const isApi = pathname.startsWith("/api/");
   let response = NextResponse.next({ request });
 
@@ -28,7 +30,6 @@ export async function proxy(request: NextRequest) {
     },
   });
 
-  // Salin cookie sesi yang baru ke respons apa pun yang kita kembalikan.
   const finish = (res: NextResponse) => {
     response.cookies.getAll().forEach((c) => res.cookies.set(c));
     return res;
@@ -51,7 +52,7 @@ export async function proxy(request: NextRequest) {
 
   if (pathname === "/forbidden") return response;
   const rule = matchRule(pathname);
-  if (pathname !== "/" && pathname !== "/login" && !rule) return response; // tak perlu cek izin
+  if (pathname !== "/" && pathname !== "/login" && !rule) return response;
 
   const profile = await loadProfile(supabase, uid);
   if (!profile || !profile.isActive) {
@@ -73,5 +74,5 @@ export async function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\.(?:svg|png|jpg|jpeg|gif|webp|ico)$).*)"],
 };
